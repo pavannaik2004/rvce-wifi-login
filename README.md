@@ -17,7 +17,8 @@ Say goodbye to manually typing your SRN and password every time you connect to t
 Since this extension isn't on the Chrome Web Store yet, you can install it manually in a few easy steps:
 
 1. **Download the Extension:**
-   - Clone this repository or download the source code as a `.zip` file and extract it.
+   - Download the zip file `rvce-wifi-login.zip` from releases and extract it. 
+   - Or Clone this repository or download the source code as a `.zip` file and extract it.
 
 2. **Open Extension Management in Chrome:**
    - Type `chrome://extensions/` in your Chrome address bar and hit **Enter**.
