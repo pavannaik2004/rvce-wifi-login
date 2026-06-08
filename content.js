@@ -21,6 +21,28 @@
     }
   }
 
+  // 2.5. Keepalive setup on Session Monitor page
+  if (pageTitle.includes('Secure Session Monitor') || pageText.includes('Session Monitor')) {
+    console.log('[RVCE Auto-Login] Session Monitor page detected.');
+    const logoutLink = document.querySelector('a[href*="/logout?"]');
+    if (logoutLink) {
+      try {
+        const url = new URL(logoutLink.href);
+        const sessionId = url.search.substring(1);
+        if (sessionId) {
+          const keepaliveUrl = `${url.protocol}//${url.host}/keepalive?${sessionId}`;
+          chrome.storage.local.set({ rvce_keepalive_url: keepaliveUrl }, () => {
+            console.log('[RVCE Auto-Login] Saved keepalive URL:', keepaliveUrl);
+            chrome.runtime.sendMessage({ action: "start_keepalive" });
+          });
+        }
+      } catch (err) {
+        console.error('[RVCE Auto-Login] Failed to parse keepalive URL', err);
+      }
+    }
+    return; // Stop execution on this page
+  }
+
   // 3. Credential Fetching
   chrome.storage.local.get(['rvce_username', 'rvce_password'], (result) => {
     const username = result.rvce_username;
