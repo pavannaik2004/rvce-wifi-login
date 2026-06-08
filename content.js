@@ -1,11 +1,11 @@
-(function() {
+(function () {
   if (!window.location.hostname.startsWith('172.16.')) return;
   console.log('[RVCE Auto-Login] Extension loaded.');
 
   // 1. DOM Safety Verification
   const pageTitle = document.title || '';
   const pageText = document.body ? document.body.innerText : '';
-  
+
   if (!pageTitle.includes('RV Institutions') && !pageText.includes('RV Institutions')) {
     console.log('[RVCE Auto-Login] Safety check failed. Terminating execution.');
     return;
@@ -24,22 +24,13 @@
   // 2.5. Keepalive setup on Session Monitor page
   if (pageTitle.includes('Secure Session Monitor') || pageText.includes('Session Monitor')) {
     console.log('[RVCE Auto-Login] Session Monitor page detected.');
-    const logoutLink = document.querySelector('a[href*="/logout?"]');
-    if (logoutLink) {
-      try {
-        const url = new URL(logoutLink.href);
-        const sessionId = url.search.substring(1);
-        if (sessionId) {
-          const keepaliveUrl = `${url.protocol}//${url.host}/keepalive?${sessionId}`;
-          chrome.storage.local.set({ rvce_keepalive_url: keepaliveUrl }, () => {
-            console.log('[RVCE Auto-Login] Saved keepalive URL:', keepaliveUrl);
-            chrome.runtime.sendMessage({ action: "start_keepalive" });
-          });
-        }
-      } catch (err) {
-        console.error('[RVCE Auto-Login] Failed to parse keepalive URL', err);
-      }
-    }
+
+    // Automatically refresh the page every 30 minutes to keep the countdown updated and session alive
+    setTimeout(() => {
+      console.log('[RVCE Auto-Login] Refreshing page to update countdown...');
+      window.location.reload();
+    }, 30 * 60 * 1000);
+
     return; // Stop execution on this page
   }
 
@@ -58,7 +49,7 @@
     // 4. Form Injection
     const usernameInputs = document.querySelectorAll('input[type="text"], input[name*="user"], input[id*="user"]');
     const passwordInputs = document.querySelectorAll('input[type="password"], input[name*="pass"], input[id*="pass"]');
-    
+
     // Find the most likely visible inputs
     const usernameField = Array.from(usernameInputs).find(el => el.type !== 'hidden' && el.style.display !== 'none');
     const passwordField = Array.from(passwordInputs).find(el => el.type !== 'hidden' && el.style.display !== 'none');
@@ -80,10 +71,10 @@
 
     // 5. Form Submission
     const submitButtons = document.querySelectorAll('button[type="submit"], input[type="submit"], button:not([type="button"])');
-    const submitBtn = Array.from(submitButtons).find(el => 
-      el.innerText.toLowerCase().includes('sign in') || 
-      el.innerText.toLowerCase().includes('login') || 
-      el.value?.toLowerCase().includes('sign in') || 
+    const submitBtn = Array.from(submitButtons).find(el =>
+      el.innerText.toLowerCase().includes('sign in') ||
+      el.innerText.toLowerCase().includes('login') ||
+      el.value?.toLowerCase().includes('sign in') ||
       el.value?.toLowerCase().includes('login') ||
       el.type === 'submit'
     );

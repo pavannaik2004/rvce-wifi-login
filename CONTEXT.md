@@ -24,6 +24,10 @@ This project is a Google Chrome Extension (Manifest V3) designed to automate the
 - Added `background.js` as a Service Worker to handle periodic background fetching.
 - Added `"alarms"` and `"host_permissions"` to `manifest.json`.
 - Updated `content.js` to detect the "Secure Session Monitor" post-login page, extract the session ID from the logout link, and notify the background worker to start a 30-minute keepalive alarm to prevent session expiry.
+
+### Update - Date: 2026-06-08 (Keepalive Refactor)
+- Removed `background.js` and the `"alarms"` permission as the background fetching strategy was overly complex and caused extension errors when disconnected.
+- Shifted the session keepalive strategy directly into `content.js` by adding an automatic page refresh (every 15 minutes) on the Session Monitor page. This correctly keeps the session alive while ensuring the visible countdown timer is automatically updated.
 ### Update - Date: 2026-06-05
 - Added `icon128.png` and updated `manifest.json` to include the new extension icon. Chrome will automatically scale this 128x128 image down for other required sizes (16x16, 48x48, etc.).
 

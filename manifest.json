@@ -1,23 +1,30 @@
 {
   "manifest_version": 3,
   "name": "RVCE Auto-Login",
-  "version": "2.0",
+  "version": "3.0",
   "description": "Automates credential entry and keeps session alive for RV Institutions Gateway.",
-  "permissions": ["storage", "alarms"],
-  "host_permissions": ["http://*/*", "https://*/*"],
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
   "icons": {
     "128": "icon128.png"
   },
   "action": {
     "default_popup": "popup.html"
   },
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["content.js"],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": [
+        "content.js"
+      ],
       "run_at": "document_idle"
     }
   ]
