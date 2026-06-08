@@ -32,10 +32,12 @@ Since this extension isn't on the Chrome Web Store yet, you can install it manua
 2. Enter your **Username / SRN** and **Password**.
 3. Click **Save Credentials**. 
 4. You're all set! The next time you connect to the campus Wi-Fi and are redirected to the login page, the extension will handle it automatically.
+5. Once logged in, the extension automatically maintains your session in the background. You can safely close the login portal tab.
 
 ## Features
 
 - **Zero-Click Login**: Detects the captive portal and automatically logs you in instantly upon page load.
+- **Background Session Keepalive**: Automatically pings the gateway in the background every 30 minutes to prevent your session from timing out.
 - **Dynamic Router Support**: Seamlessly works across various campus gateway IPs (dynamically targets `172.16.*.*`).
 - **Privacy First**: Your credentials are saved securely in your local browser sandbox using `chrome.storage.local`. No data ever leaves your device.
 - **Infinite-Loop Prevention**: Gracefully halts execution if invalid credentials are provided to prevent annoying page reload loops.
