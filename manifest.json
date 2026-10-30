@@ -8,7 +8,7 @@
   "action": { "default_popup": "popup.html" },
   "content_scripts": [
     {
-      "matches": ["*://172.16.0.2:1003/*"],
+      "matches": ["http://172.16.0.2:1003/*", "https://172.16.0.2:1003/*"],
       "js": ["content.js"],
       "run_at": "document_idle"
     }
