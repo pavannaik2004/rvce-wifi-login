@@ -19,6 +19,11 @@ This project is a Google Chrome Extension (Manifest V3) designed to automate the
 
 ## Logs & Updates
 
+### Update - Date: 2026-10-30 (v3.1)
+- The login portal is always `172.16.0.2:1003`, so the content script now matches only `*://172.16.0.2:1003/*`.
+- Removed the broad `http://*/*` / `https://*/*` host permissions, the `172.16.` hostname filter and the "RV Institutions" DOM check.
+- Condensed `content.js` and `popup.js`; behavior (error-banner stop, 30-minute reload on Session Monitor, auto-fill + submit) is unchanged.
+
 ### Feature - Date: 2026-06-08 (v2.0)
 - Upgraded extension to version 2.0 with background keepalive functionality.
 - Added `background.js` as a Service Worker to handle periodic background fetching.

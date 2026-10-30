@@ -38,7 +38,7 @@ Since this extension isn't on the Chrome Web Store yet, you can install it manua
 
 - **Zero-Click Login**: Detects the captive portal and automatically logs you in instantly upon page load.
 - **Background Session Keepalive**: Automatically pings the gateway in the background every 30 minutes to prevent your session from timing out.
-- **Dynamic Router Support**: Seamlessly works across various campus gateway IPs (dynamically targets `172.16.*.*`).
+- **Scoped to the Gateway**: Runs only on the campus login portal (`172.16.0.2:1003`), nowhere else.
 - **Privacy First**: Your credentials are saved securely in your local browser sandbox using `chrome.storage.local`. No data ever leaves your device.
 - **Infinite-Loop Prevention**: Gracefully halts execution if invalid credentials are provided to prevent annoying page reload loops.
 - **Sleek UI**: Modern, dark-mode configuration popup to easily manage your credentials.

@@ -1,39 +1,21 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const usernameInput = document.getElementById('username');
-  const passwordInput = document.getElementById('password');
-  const saveBtn = document.getElementById('saveBtn');
-  const statusEl = document.getElementById('status');
+const $ = (id) => document.getElementById(id);
+const user = $('username'), pass = $('password'), status = $('status');
 
-  // Load saved credentials securely
-  chrome.storage.local.get(['rvce_username', 'rvce_password'], (result) => {
-    if (result.rvce_username) usernameInput.value = result.rvce_username;
-    if (result.rvce_password) passwordInput.value = result.rvce_password;
-  });
+chrome.storage.local.get(['rvce_username', 'rvce_password'], (r) => {
+  user.value = r.rvce_username || '';
+  pass.value = r.rvce_password || '';
+});
 
-  saveBtn.addEventListener('click', () => {
-    const username = usernameInput.value.trim();
-    const password = passwordInput.value;
+function flash(html, color) {
+  status.innerHTML = html;
+  status.style.color = color;
+  status.style.opacity = '1';
+  setTimeout(() => (status.style.opacity = '0'), 2000);
+}
 
-    if (!username || !password) {
-      statusEl.style.color = '#ef4444'; // Error red
-      statusEl.innerHTML = 'Please fill all fields';
-      statusEl.style.opacity = '1';
-      setTimeout(() => { statusEl.style.opacity = '0'; }, 2000);
-      return;
-    }
-
-    // Save logic
-    chrome.storage.local.set({
-      rvce_username: username,
-      rvce_password: password
-    }, () => {
-      // Show success
-      statusEl.style.color = 'var(--success)';
-      statusEl.innerHTML = '<span class="check-icon"></span>Saved securely';
-      statusEl.style.opacity = '1';
-      setTimeout(() => {
-        statusEl.style.opacity = '0';
-      }, 2000);
-    });
-  });
+$('saveBtn').addEventListener('click', () => {
+  const rvce_username = user.value.trim(), rvce_password = pass.value;
+  if (!rvce_username || !rvce_password) return flash('Please fill all fields', '#ef4444');
+  chrome.storage.local.set({ rvce_username, rvce_password }, () =>
+    flash('<span class="check-icon"></span>Saved securely', 'var(--success)'));
 });
