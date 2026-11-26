@@ -15,7 +15,7 @@ Say goodbye to typing your SRN and password every time you connect to the campus
 The extension isn't on the Chrome Web Store yet, so you install it manually:
 
 1. **Download the extension**
-   - [**Download rvce_wifilogin_v4.zip ⬇️⬇️⬇️**](https://github.com/pavannaik2004/rvce-wifi-login/releases/download/zip-file/rvce_wifilogin_v4.zip)
+   - [**Download rvce_wifilogin_v4.zip ⬇️⬇️⬇️**](https://github.com/pavannaik2004/rvce-wifi-login/releases/download/zip-file/rvce_wifi-login_v4.zip)
    - Extract the zip to a folder you won't delete (Chrome loads the extension from this folder every time).
 
 2. **Open the extensions page**
