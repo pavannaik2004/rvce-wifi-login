@@ -20,6 +20,13 @@
     pass.value = rvce_password;
     for (const el of [user, pass]) el.dispatchEvent(new Event('input', { bubbles: true }));
 
+    // Sophos portal (rvce-fw): "Sign in" is <a href="javascript:submitRequest()">, no <form>.
+    // Clicking a javascript: link from here is blocked by Chrome, so ask submit.js (MAIN world) to call it.
+    if (document.getElementById('loginbutton')) {
+      setTimeout(() => document.dispatchEvent(new CustomEvent('rvce-autologin-submit')), 300);
+      return;
+    }
+
     const btn = (pass.form || document).querySelector('[type="submit"], button:not([type="button"])');
     setTimeout(() => (btn ? btn.click() : pass.form?.submit()), 300);
   });

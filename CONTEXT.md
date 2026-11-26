@@ -19,6 +19,12 @@ This project is a Google Chrome Extension (Manifest V3) designed to automate the
 
 ## Logs & Updates
 
+### Update - Date: 2026-11-26 (v4.0)
+- The login portal moved to `https://rvce-fw.rvce.edu.in:8090/httpclient.html` (a Sophos captive portal). Added `http(s)://rvce-fw.rvce.edu.in:8090/*` to the content script matches; the old `172.16.0.2:1003` patterns are kept as a fallback.
+- The Sophos page has no `<form>`: "Sign in" is `<a href="javascript:submitRequest()"><div id="loginbutton">`, and login is done over AJAX (`login.xml`).
+- Clicking that anchor from `content.js` does nothing: Chrome blocks `javascript:` URLs triggered from an extension's isolated world. Added `submit.js`, a content script in the page's `MAIN` world (needs Chrome 111+, hence `minimum_chrome_version`). `content.js` fills the fields, then dispatches a `rvce-autologin-submit` DOM event; `submit.js` listens for it and calls the page's `submitRequest()`.
+- The Sophos page keeps the session alive itself (`live?mode=192` requests) while the tab stays open, so no reload is needed there. Login errors are shown via AJAX without a reload, so they cannot cause a login loop.
+
 ### Update - Date: 2026-10-30 (v3.1)
 - The login portal is always `172.16.0.2:1003`, so the content script now matches only `http(s)://172.16.0.2:1003/*` (Chrome rejects a port with the `*://` scheme wildcard, so both schemes are listed).
 - Removed the broad `http://*/*` / `https://*/*` host permissions, the `172.16.` hostname filter and the "RV Institutions" DOM check.
